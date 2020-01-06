@@ -1,0 +1,3 @@
+kaitaistruct==0.8
+lmdb==0.98
+nanolib==0.3

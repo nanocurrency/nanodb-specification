@@ -23,7 +23,7 @@ class Nanodb(KaitaiStruct):
         version = 1
 
     class DatabaseVersion(Enum):
-        value = 16
+        value = 17
 
     class EnumEpoch(Enum):
         invalid = 0
@@ -558,6 +558,7 @@ class Nanodb(KaitaiStruct):
 
         def _read(self):
             self.height = self._io.read_u8be()
+            self.frontier = self._io.read_bytes(32)
 
 
     class SendSideband(KaitaiStruct):

@@ -11,7 +11,7 @@ enums:
 
   # The database version covered by this specification
   database_version:
-    16: value
+    17: value
 
   enum_blocktype:
     0x00: invalid
@@ -59,7 +59,10 @@ types:
     seq:
       - id: height
         type: u8be
-      
+      - id: frontier
+        size: 32
+        doc: Hash of frontier block
+
   # -------------------------------------------------------------------
   # Table: frontiers
   # -------------------------------------------------------------------

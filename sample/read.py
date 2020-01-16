@@ -459,6 +459,7 @@ try:
                 # height timestamp is stored in microseconds since epoch
                 print('account          : {}'.format(nanolib.accounts.get_account_id(prefix=nanolib.AccountIDPrefix.NANO, public_key=height_key.account.hex())))
                 print('confirmed height : {}'.format(height_info.height))
+                print('frontier hash    : {}'.format(height_info.frontier.hex().upper()))
                 print('')
 
                 count+=1

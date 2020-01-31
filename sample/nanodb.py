@@ -57,7 +57,10 @@ class Nanodb(KaitaiStruct):
             self.successor = self._io.read_bytes(32)
             self.height = self._io.read_u8be()
             self.timestamp = self._io.read_u8be()
-            self.epoch = self._root.EnumEpoch(self._io.read_u1())
+            self.is_send = self._io.read_bits_int(1) != 0
+            self.is_receive = self._io.read_bits_int(1) != 0
+            self.is_epoch = self._io.read_bits_int(1) != 0
+            self.epoch = self._root.EnumEpoch(self._io.read_bits_int(5))
 
 
     class ReceiveKey(KaitaiStruct):
@@ -175,16 +178,16 @@ class Nanodb(KaitaiStruct):
 
         def _read(self):
             _on = self.arg_block_type
-            if _on == self._root.EnumBlocktype.receive.value:
-                self.block = self._root.BlockReceive(self._io, self, self._root)
-            elif _on == self._root.EnumBlocktype.change.value:
-                self.block = self._root.BlockChange(self._io, self, self._root)
+            if _on == self._root.EnumBlocktype.open.value:
+                self.block = self._root.BlockOpen(self._io, self, self._root)
             elif _on == self._root.EnumBlocktype.state.value:
                 self.block = self._root.BlockState(self._io, self, self._root)
-            elif _on == self._root.EnumBlocktype.open.value:
-                self.block = self._root.BlockOpen(self._io, self, self._root)
+            elif _on == self._root.EnumBlocktype.receive.value:
+                self.block = self._root.BlockReceive(self._io, self, self._root)
             elif _on == self._root.EnumBlocktype.send.value:
                 self.block = self._root.BlockSend(self._io, self, self._root)
+            elif _on == self._root.EnumBlocktype.change.value:
+                self.block = self._root.BlockChange(self._io, self, self._root)
             else:
                 self.block = self._root.IgnoreUntilEof(self._io, self, self._root)
 

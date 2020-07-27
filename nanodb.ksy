@@ -332,8 +332,14 @@ types:
       - id: timestamp
         type: u8be
         doc: Unix epoch, big endian
+      - id: is_send
+        type: b1
+      - id: is_receive
+        type: b1
+      - id: is_epoch
+        type: b1
       - id: epoch
-        type: u1
+        type: b5
         enum: enum_epoch
         doc: Which ledger epoch this block belongs to
 

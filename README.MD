@@ -145,3 +145,9 @@ online weight  : 97683094289936149573532425682751217817
 ```
 Database version:  16
 ```
+
+## Generating a diagram
+
+This needs the package `graphviz`
+
+`kaitai-struct-compiler -t graphviz nanodb.ksy && dot -Tpng nanodb.dot > nanodb.png`

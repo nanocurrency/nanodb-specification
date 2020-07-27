@@ -259,6 +259,9 @@ try:
                 print('    successor     : {}'.format(state_block.sideband.successor.hex().upper()))
                 print('    height        : {}'.format(state_block.sideband.height))
                 print('    timestamp     : {}'.format(datetime.datetime.utcfromtimestamp(state_block.sideband.timestamp)))
+                print('    is_send       : {}'.format(state_block.sideband.is_send))
+                print('    is_receive    : {}'.format(state_block.sideband.is_receive))
+                print('    is_epoch      : {}'.format(state_block.sideband.is_epoch))
                 print('    epoch         : {}'.format(state_block.sideband.epoch.name))
                 print('')
 

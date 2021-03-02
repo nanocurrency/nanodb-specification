@@ -11,7 +11,7 @@ enums:
 
   # The database version covered by this specification
   database_version:
-    17: value
+    19: value
 
   enum_blocktype:
     0x00: invalid
@@ -61,7 +61,7 @@ types:
         type: u8be
       - id: frontier
         size: 32
-        doc: Hash of frontier block
+        doc: Hash of confirmed frontier block at this height
 
   # -------------------------------------------------------------------
   # Table: frontiers
@@ -164,18 +164,34 @@ types:
         enum: enum_epoch
 
   # -------------------------------------------------------------------
-  # Table: change
+  # Table: blocks
   # -------------------------------------------------------------------
-  change:
+  blocks:
     seq:
       - id: key
-        type: change_key
+        type: blocks_key
       - id: value
-        type: change_value
-  change_key:
+        type: blocks_value
+  blocks_key:
     seq:
       - id: hash
         size: 32
+  blocks_value:
+    seq:
+      - id: block_type
+        type: u1
+        enum: enum_blocktype
+      - id: block_value
+        type:
+          switch-on: block_type
+          cases:
+            'enum_blocktype::send': send_value
+            'enum_blocktype::receive': receive_value
+            'enum_blocktype::open': open_value
+            'enum_blocktype::change': change_value
+            'enum_blocktype::state': state_value
+            _: ignore_until_eof
+
   change_value:
     seq:
       - id: block
@@ -199,20 +215,6 @@ types:
       - id: timestamp
         type: u8be
         doc: Unix epoch
-
-  # -------------------------------------------------------------------
-  # Table: open
-  # -------------------------------------------------------------------
-  open:
-    seq:
-      - id: key
-        type: open_key
-      - id: value
-        type: open_value
-  open_key:
-    seq:
-      - id: hash
-        size: 32
   open_value:
     seq:
       - id: block
@@ -230,20 +232,6 @@ types:
       - id: timestamp
         type: u8be
         doc: Unix epoch, big endian
-
-  # -------------------------------------------------------------------
-  # Table: receive
-  # -------------------------------------------------------------------
-  receive:
-    seq:
-      - id: key
-        type: receive_key
-      - id: value
-        type: receive_value
-  receive_key:
-    seq:
-      - id: hash
-        size: 32
   receive_value:
     seq:
       - id: block
@@ -267,20 +255,6 @@ types:
       - id: timestamp
         type: u8be
         doc: Unix epoch, big endian
-
-  # -------------------------------------------------------------------
-  # Table: send
-  # -------------------------------------------------------------------
-  send:
-    seq:
-      - id: key
-        type: send_key
-      - id: value
-        type: send_value
-  send_key:
-    seq:
-      - id: hash
-        size: 32
   send_value:
     seq:
       - id: block
@@ -301,27 +275,13 @@ types:
       - id: timestamp
         type: u8be
         doc: Unix epoch, big endian
-    
-  # -------------------------------------------------------------------
-  # Table: state_blocks
-  # -------------------------------------------------------------------
-  state_blocks:
-    seq:
-      - id: key
-        type: state_blocks_key
-      - id: value
-        type: state_blocks_value
-  state_blocks_key:
-    seq:
-      - id: hash
-        size: 32
-  state_blocks_value:
+  state_value:
     seq:
       - id: block
         type: block_state
       - id: sideband
-        type: state_block_sideband
-  state_block_sideband:
+        type: state_sideband
+  state_sideband:
     seq:
       - id: successor
         size: 32

@@ -560,7 +560,7 @@ class Nanodb(KaitaiStruct):
             self._read()
 
         def _read(self):
-            self.height = self._io.read_u8be()
+            self.height = self._io.read_u8le()
             self.frontier = self._io.read_bytes(32)
 
 
@@ -756,6 +756,3 @@ class Nanodb(KaitaiStruct):
         def _read(self):
             self.key = self._root.SendKey(self._io, self, self._root)
             self.value = self._root.SendValue(self._io, self, self._root)
-
-
-

@@ -58,7 +58,7 @@ types:
   confirmation_height_value:
     seq:
       - id: height
-        type: u8be
+        type: u8le
       - id: frontier
         size: 32
         doc: Hash of confirmed frontier block at this height
@@ -72,7 +72,7 @@ types:
       - id: key
         type: frontiers_key
       - id: value
-        type: frontiers_value        
+        type: frontiers_value
   frontiers_key:
     seq:
       - id: hash
@@ -84,7 +84,7 @@ types:
 
   # -------------------------------------------------------------------
   # Table: meta
-  # Structure of value may depends on key in the future, hence a 
+  # Structure of value may depends on key in the future, hence a
   # separate definition for each key (currently only version is used)
   # -------------------------------------------------------------------
   meta_key:
@@ -337,7 +337,7 @@ types:
         enum: enum_signature_verification
 
   # -------------------------------------------------------------------
-  # Table: vote  
+  # Table: vote
   # -------------------------------------------------------------------
   vote:
     seq:
@@ -353,7 +353,7 @@ types:
         size: 32
         doc: Public key
 
-  vote_value:    
+  vote_value:
     doc: Vote and block(s)
     seq:
       - id: account
@@ -394,10 +394,10 @@ types:
         if: idx > 0
       - id: block_hash
         size: 32
-  
+
   # -------------------------------------------------------------------
   # Table: accounts
-  # -------------------------------------------------------------------  
+  # -------------------------------------------------------------------
   accounts:
     seq:
       - id: key
@@ -545,7 +545,7 @@ types:
             'enum_blocktype::change.to_i': block_change
             'enum_blocktype::state.to_i': block_state
             _: ignore_until_eof
- 
+
   # Catch-all that ignores until eof
   ignore_until_eof:
     seq:
